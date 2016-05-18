@@ -9,6 +9,7 @@ import android.database.DatabaseUtils;
 import android.os.RemoteException;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
@@ -132,8 +133,8 @@ public class StockTaskService extends GcmTaskService {
 
                     ArrayList contentValsResponse = Utils.quoteJsonToContentVals(getResponse);
 
-                    if (contentValsResponse == null || contentValsResponse.get(0) == null) {
-                        Snackbar.make()
+                    if (contentValsResponse == null || contentValsResponse.isEmpty() || contentValsResponse.get(0) == null) {
+                        Toast.makeText(mContext, "doesn't exist", Toast.LENGTH_SHORT).show();
 
                     } else {
                         mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY, contentValsResponse);
