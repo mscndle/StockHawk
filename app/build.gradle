@@ -36,5 +36,5 @@ dependencies {
     }
 
     // android charts library
-    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'com.diogobernardino:williamchart:2.2'
 }
