@@ -3,19 +3,26 @@ package com.sam_chordas.android.stockhawk.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.view.animation.Animation;
 import android.widget.Toast;
 
 import com.db.chart.model.LineSet;
+import com.db.chart.view.AxisController;
 import com.db.chart.view.LineChartView;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mscndle on 5/24/16.
@@ -96,17 +103,37 @@ public class StockDetailActivity extends AppCompatActivity implements LoaderMana
      */
     private void displayChart(Cursor data) {
         LineSet lineSet = new LineSet();
-        int total = data.getCount();
+        float max = Float.MIN_VALUE;
+        float min = Float.MAX_VALUE;
 
         for (data.moveToFirst(); !data.isAfterLast(); data.moveToNext()) {
             int bidPriceColIndex = data.getColumnIndexOrThrow(QuoteColumns.BIDPRICE);
             String label = data.getString(bidPriceColIndex);
             float value = data.getFloat(bidPriceColIndex);
 
+            max = Math.max(max, value);
+            min = Math.min(min, value);
+
             lineSet.addPoint(label, value);
         }
 
-        lineChartView.addData(lineSet);
+        // avoid negative values
+//        if (min > 100) {
+//            min =- 100;
+//        }
+//        max += 100;
+
+        lineSet.setColor(Color.LTGRAY)
+                .setDotsColor(Color.LTGRAY)
+                .setThickness(1.0f)
+                .setDotsStrokeThickness(1.2f);
+
+        lineChartView.setAxisColor(Color.LTGRAY)
+                .setLabelsColor(Color.LTGRAY)
+                .setXLabels(AxisController.LabelPosition.NONE)  // should ideally be time in year/month
+                .setAxisBorderValues(Math.round(Math.max(0f, min - 10f)), Math.round(max + 10f))
+                .addData(lineSet);
+
         lineChartView.show();
 
         data.close();

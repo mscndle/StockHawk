@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -20,6 +21,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -89,7 +91,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 new RecyclerViewItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        String stockSymbol = mCursor.getString(position);
+                        String stockSymbol = ((QuoteCursorAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(position)).symbol.getText().toString();
                         StockDetailActivity.startWith(MyStocksActivity.this, stockSymbol);
                     }
                 }));
@@ -124,7 +126,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                         // Add the stock to DB
                                         mServiceIntent.putExtra("tag", "add");
                                         mServiceIntent.putExtra("symbol", input.toString());
-                                        ComponentName name = startService(mServiceIntent);
                                     }
                                 }
                             })
