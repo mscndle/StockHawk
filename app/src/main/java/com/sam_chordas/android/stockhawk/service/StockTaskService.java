@@ -131,6 +131,7 @@ public class StockTaskService extends GcmTaskService {
                     ArrayList contentValsResponse = Utils.quoteJsonToContentVals(getResponse);
 
                     if (contentValsResponse == null || contentValsResponse.isEmpty() || contentValsResponse.get(0) == null) {
+                        //todo - fix this
                         Toast.makeText(mContext, "doesn't exist", Toast.LENGTH_SHORT).show();
 
                     } else {
