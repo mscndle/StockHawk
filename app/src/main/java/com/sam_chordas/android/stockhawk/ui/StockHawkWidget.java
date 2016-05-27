@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.sam_chordas.android.stockhawk.R;
+import com.sam_chordas.android.stockhawk.service.StockWidgetRemoteViewsService;
 
 /**
  * Created by mandeep.condle on 5/27/16.
@@ -27,7 +28,9 @@ public class StockHawkWidget extends AppWidgetProvider {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             views.setOnClickPendingIntent(R.id.stock_widget_header, pendingIntent);
 
-            views.setRemoteAdapter(R.id.stock_widget_list, StockWidgetRemoteViewsService.class);
+            views.setRemoteAdapter(R.id.stock_widget_list, new Intent(context, StockWidgetRemoteViewsService.class));
+
+            appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }
 }
