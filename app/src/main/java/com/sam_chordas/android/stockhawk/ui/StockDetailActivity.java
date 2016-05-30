@@ -69,7 +69,7 @@ public class StockDetailActivity extends AppCompatActivity implements LoaderMana
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         if (id == LOADER_ID) {
-            return new CursorLoader(
+            Loader<Cursor> cursorLoader = new CursorLoader(
                     this,                                   // context
                     QuoteProvider.Quotes.CONTENT_URI,       // uri
                     new String[] {                          // projection
@@ -77,10 +77,11 @@ public class StockDetailActivity extends AppCompatActivity implements LoaderMana
                             QuoteColumns.PERCENT_CHANGE, QuoteColumns.CHANGE, QuoteColumns.ISUP
                     },
                     QuoteColumns.SYMBOL + " = ?",           // selection
-                        new String[] {                      // selectionArgs
+                    new String[] {                          // selectionArgs
                             stockSymbol
                     },
                     null);                                  // sort order
+            return cursorLoader;
         }
 
         return null;

@@ -32,7 +32,6 @@
         <activity
             android:name=".ui.StockDetailActivity" />
 
-
         <service android:name="com.sam_chordas.android.stockhawk.service.StockTaskService"
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE"
             android:exported="true">
@@ -43,17 +42,23 @@
 
         <service android:name="com.sam_chordas.android.stockhawk.service.StockIntentService" />
 
-        <!--<service android:name=".service.StockWidgetRemoteViewsService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="false"-->
-            <!--android:permission="android.permission.BIND_REMOTEVIEWS"/>-->
+        <service android:name=".service.StockWidgetRemoteViewsService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
         <provider
             android:authorities="com.sam_chordas.android.stockhawk.data.QuoteProvider"
             android:name="com.sam_chordas.android.stockhawk.data.generated.QuoteProvider"
             android:exported="false"/>
 
-        <receiver android:name=".ui.StockHawkWidget" />
+        <receiver android:name=".ui.StockHawkWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/stock_widget_info" />
+        </receiver>
 
     </application>
 
